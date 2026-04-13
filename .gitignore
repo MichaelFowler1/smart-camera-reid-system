@@ -1,6 +1,17 @@
-# Secrets
+# Ignore the camera credentials
 .env
 
-# Python artifacts
+# Ignore AI model weights (Critical)
+*.pt
+
+# Ignore the saved car fingerprints
+*.npy
+
+# Ignore the saved family names
+labels.json
+
+# Ignore unrelated projects
+drone_brain_final.py
+
+# Ignore Python cache files
 __pycache__/
-*.pyc
