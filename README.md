@@ -1,6 +1,6 @@
 # Enterprise Vehicle Re-Identification Node
 
-![Vehicle Tracking System Demo](demo.jpg)
+![Vehicle Tracking System Demo](demo.png)
 
 ## Overview
 A real-time, multi-threaded computer vision node designed to track, identify, and log vehicles entering a residential driveway. Built using Python, OpenCV, and the Ultralytics RT-DETR model, this system acts as an "AI Concierge," maintaining a 3D memory database of known vehicles while actively filtering out false positives.
