@@ -14,7 +14,7 @@ face_labels.json
 *.pt
 *.pth
 *.onnx
-
+*.npy
 # --- Python ---
 __pycache__/
 *.pyc
