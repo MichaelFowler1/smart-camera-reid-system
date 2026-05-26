@@ -1,17 +1,37 @@
-# Ignore the camera credentials
+# --- Secrets ---
 .env
+.env.local
+config.json
+*.key
 
-# Ignore AI model weights (Critical)
-*.pt
-
-# Ignore the saved car fingerprints
-*.npy
-
-# Ignore the saved family names
+# --- Personal data: enrolled identities ---
+sig_*.npy
+face_sig_*.npy
 labels.json
+face_labels.json
 
-# Ignore unrelated projects
-drone_brain_final.py
+# --- Model weights (auto-downloaded on first run) ---
+*.pt
+*.pth
+*.onnx
 
-# Ignore Python cache files
+# --- Python ---
 __pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# --- IDE / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Logs / temp ---
+*.log
+*.tmp
+debug_frames/
+captures/
