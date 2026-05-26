@@ -3,6 +3,12 @@ import json
 import tkinter as tk
 from threading import Thread
 from tkinter import simpledialog
+import cv2
+import time
+import numpy as np
+from dotenv import load_dotenv
+from ultralytics import RTDETR
+from sklearn.metrics.pairwise import cosine_similarity
 
 # 1. GAG THE FFMPEG & H264 SPAM
 os.environ['OPENCV_LOG_LEVEL'] = 'SILENT'
@@ -10,13 +16,6 @@ os.environ['OPENCV_FFMPEG_LOGLEVEL'] = '-8'
 
 # 2. SAFE CONNECTION FLAGS
 os.environ['OPENCV_FFMPEG_CAPTURE_OPTIONS'] = 'rtsp_transport;udp'
-
-import cv2
-import time
-import numpy as np
-from dotenv import load_dotenv
-from ultralytics import RTDETR
-from sklearn.metrics.pairwise import cosine_similarity
 
 # DIRECTORY SETUP
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -60,13 +59,14 @@ for i in range(MAX_SLOTS):
             print(f"[LOADED] Slot {i:02d}: {slot_names[i]}")
 print("="*40 + "\n")
 
-# ROCK-SOLID VIDEO THREAD (No Race Conditions)
+
+# ROCK-SOLID VIDEO THREAD (100% Non-Blocking)
 class VideoStream:
     def __init__(self, url):
         self.url = url
-        self.stream = cv2.VideoCapture(url, cv2.CAP_FFMPEG)
-        self.stream.set(cv2.CAP_PROP_BUFFERSIZE, 1)
-        self.grabbed, self.frame = self.stream.read()
+        self.stream = None
+        self.grabbed = False
+        self.frame = None
         self.stopped = False
 
     def start(self):
@@ -75,24 +75,36 @@ class VideoStream:
 
     def update(self):
         while not self.stopped:
-            grabbed, frame = self.stream.read()
-            if not grabbed:
-                self.grabbed = False # Safely tell main thread we are offline
-                self.stream.release()
-                time.sleep(2) # Wait 2 seconds before knocking on Eufy's door again
+            # If stream is dead, try to initialize it quietly in the background
+            if self.stream is None:
                 self.stream = cv2.VideoCapture(self.url, cv2.CAP_FFMPEG)
                 self.stream.set(cv2.CAP_PROP_BUFFERSIZE, 1)
-                continue
-            self.frame = frame
-            self.grabbed = True
+
+            if self.stream is not None and self.stream.isOpened():
+                grabbed, frame = self.stream.read()
+                if not grabbed:
+                    self.grabbed = False 
+                    self.stream.release()
+                    self.stream = None
+                    time.sleep(1) # Slows down terminal 404 spam
+                    continue
+                
+                self.frame = frame
+                self.grabbed = True
+            else:
+                self.grabbed = False
+                if self.stream is not None:
+                    self.stream.release()
+                self.stream = None
+                time.sleep(1)
 
     def read(self):
-        # Only return the frame if we successfully grabbed it, otherwise return None
         return self.frame if self.grabbed else None
 
     def stop(self):
         self.stopped = True
-        self.stream.release()
+        if self.stream:
+            self.stream.release()
 
 def get_advanced_signature(car_crop):
     car_crop = cv2.resize(car_crop, (128, 256))
