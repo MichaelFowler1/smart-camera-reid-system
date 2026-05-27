@@ -1,3 +1,4 @@
+<img width="1597" height="1234" alt="test (1)" src="https://github.com/user-attachments/assets/4262c12d-fad8-434c-9e23-0daac7c08d6a" />
 <img width="2545" height="1318" alt="example" src="https://github.com/user-attachments/assets/d2b9aed0-55f5-4cd3-ae78-5e499e4e5350" />
 # Eufy AI Vision
 
