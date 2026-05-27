@@ -1,3 +1,4 @@
+<img width="2545" height="1318" alt="example" src="https://github.com/user-attachments/assets/d2b9aed0-55f5-4cd3-ae78-5e499e4e5350" />
 # Eufy AI Vision
 
 Local computer-vision pipeline for Eufy cameras. Bypasses Eufy's event-only streaming by tunneling P2P video through a local bridge, then runs real-time object tracking, vehicle re-identification, face recognition, and on-demand AI scene description with GPT-5.5 — entirely on your machine, with the video frames never leaving your network unless you press the "describe" key.
