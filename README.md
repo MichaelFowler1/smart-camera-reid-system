@@ -242,3 +242,13 @@ README.md                    - You are here
 ## Disclaimer
 
 This project uses unofficial third-party tooling to access Eufy cameras. It does not use, modify, or distribute any code from Anker/Eufy. Use of the eufy-security-client library may technically violate Eufy's Terms of Service; the legal status of reverse-engineered camera access in your jurisdiction is your responsibility to understand. All video processing happens locally; no frames leave your machine except when you press `D` to invoke the OpenAI vision API, at which point the current frame is uploaded for description.
+
+## License
+
+Licensed under the **GNU Affero General Public License v3.0** (AGPL-3.0).
+See [LICENSE](LICENSE).
+
+This project depends on [Ultralytics](https://github.com/ultralytics/ultralytics)
+YOLO, which is AGPL-3.0 licensed. AGPL-3.0 is therefore used here for license
+compatibility. If you deploy a modified version of this software over a network,
+AGPL-3.0 section 13 requires that you offer the corresponding source to its users.
